@@ -7,10 +7,13 @@ import numpy as np
 import pickle
 import random
 import math
+import os
+
 
 # DIR = "C:\\Users\\Owais\\.conda\\envs\\TODO_ML\\server"
-DIR = r"C:\Users\Owais\Desktop\Programming\TODO_ML\server"
-
+# DIR = r"C:\Users\Owais\Desktop\Programming\TODO_ML\server"
+# DIR = os.getcwd()
+DIR = os.path.realpath(__file__).replace("\\app.py", "")
 
 app = Flask(__name__)
 CORS(app)
@@ -24,7 +27,9 @@ for i in cls1:
     n.append(x)
     n.append(y)
 cls1.extend(n)
-
+with open(DIR + "\cls1.txt", "w") as f:
+    for i in cls1:
+        f.write(i+",")
 
 @app.route("/predict", methods=["POST"])
 def main():
@@ -83,16 +88,24 @@ def main():
 def add_suggestions():
     data = request.get_json(force=True)
     to_send = {"0": "No matching list found", "status": "0"}
-    if data["status"] == 1:
-        if data["data"] not in cls1:
+    l = []
+    with open(DIR + "\cls1.txt", "r") as f:
+        l.append(f.read())
+
+    if data["status"] == "1":
+        if data["data"] not in l[0]:
             cls1.append(data["data"])
             to_send["0"] = "Data added successfully"
             to_send["status"] = "1"
         else:
             to_send["0"] = "Data already present"
             to_send["status"] = "1"
-    elif data["status"] == 0:
+    elif data["status"] == "0":
         to_send["0"] = "Nothing to add"
+
+    with open(DIR + "\cls1.txt", "w") as f:
+        for i in cls1:
+            f.write(i+",")
     response = app.response_class(
         response=json.dumps(to_send),
         status=200,
@@ -103,8 +116,11 @@ def add_suggestions():
 
 @app.route("/get_list", methods=["GET", "POST"])
 def send_list():
+    to_send = []
+    with open(DIR + "\cls1.txt", "r") as f:
+        to_send.append(f.read())
     response = app.response_class(
-        response=json.dumps(cls1),
+        response=json.dumps(to_send),
         status=200,
         mimetype='application/json'
     )
