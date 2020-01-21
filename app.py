@@ -130,7 +130,7 @@ def send_list():
         status=200,
         mimetype='application/json'
     )
-    return jsonify(**response)
+    return response
 
 
 if __name__ == "__main__":
