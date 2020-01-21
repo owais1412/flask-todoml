@@ -37,7 +37,7 @@ def home():
     return "Hii Owais"
 
 
-@app.route("/predict", methods=["POST"])
+@app.route("/predict", methods=["GET", "POST"])
 def main():
     with open(DIR+r"\todo_ml.sav", 'rb') as f:
         model = pickle.load(f)
@@ -90,7 +90,7 @@ def main():
     return response
 
 
-@app.route("/add_suggestions", methods=["POST"])
+@app.route("/add_suggestions", methods=["GET", "POST"])
 def add_suggestions():
     data = request.get_json(force=True)
     to_send = {"0": "No matching list found", "status": "0"}
