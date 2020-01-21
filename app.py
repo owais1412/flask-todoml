@@ -31,6 +31,12 @@ with open(DIR + "\cls1.txt", "w") as f:
     for i in cls1:
         f.write(i+",")
 
+
+@app.route("/")
+def home():
+    return "Hii Owais"
+
+
 @app.route("/predict", methods=["POST"])
 def main():
     with open(DIR+r"\todo_ml.sav", 'rb') as f:
