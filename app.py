@@ -26,7 +26,7 @@ for i in cls1:
 cls1.extend(n)
 
 
-@app.route("/", methods=["POST"])
+@app.route("/predict", methods=["POST"])
 def main():
     with open(DIR+r"\todo_ml.sav", 'rb') as f:
         model = pickle.load(f)
@@ -67,12 +67,44 @@ def main():
         data.append(y_kmeans[i])
 
     # send the response
-    to_send = {0:"No matching list found"}
+    to_send = {0: "No matching list found"}
     for i in cls1:
         if key in i or key == i:
             to_send = data
     response = app.response_class(
         response=json.dumps(to_send),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+
+@app.route("/add_suggestions", methods=["POST"])
+def add_suggestions():
+    data = request.get_json(force=True)
+    to_send = {"0": "No matching list found", "status": "0"}
+    if data["status"] == 1:
+        if data["data"] not in cls1:
+            cls1.append(data["data"])
+            to_send["0"] = "Data added successfully"
+            to_send["status"] = "1"
+        else:
+            to_send["0"] = "Data already present"
+            to_send["status"] = "1"
+    elif data["status"] == 0:
+        to_send["0"] = "Nothing to add"
+    response = app.response_class(
+        response=json.dumps(to_send),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+
+@app.route("/get_list", methods=["GET", "POST"])
+def send_list():
+    response = app.response_class(
+        response=json.dumps(cls1),
         status=200,
         mimetype='application/json'
     )
