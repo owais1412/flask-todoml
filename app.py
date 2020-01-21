@@ -82,12 +82,12 @@ def main():
     for i in cls1:
         if key in i or key == i:
             to_send = data
-    response = app.response_class(
-        response=json.dumps(to_send),
-        status=200,
-        mimetype='application/json'
-    )
-    return jsonify(**response)
+    # response = app.response_class(
+    #     response=json.dumps(to_send),
+    #     status=200,
+    #     mimetype='application/json'
+    # )
+    return jsonify(to_send)
 
 
 @app.route("/add_suggestions", methods=["GET", "POST"])
@@ -112,12 +112,12 @@ def add_suggestions():
     with open(DIR + "\cls1.txt", "w") as f:
         for i in cls1:
             f.write(i+",")
-    response = app.response_class(
-        response=json.dumps(to_send),
-        status=200,
-        mimetype='application/json'
-    )
-    return jsonify(**response)
+    # response = app.response_class(
+    #     response=json.dumps(to_send),
+    #     status=200,
+    #     mimetype='application/json'
+    # )
+    return jsonify(to_send)
 
 
 @app.route("/get_list", methods=["GET", "POST"])
