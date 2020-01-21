@@ -87,7 +87,7 @@ def main():
         status=200,
         mimetype='application/json'
     )
-    return response
+    return jsonify(**response)
 
 
 @app.route("/add_suggestions", methods=["GET", "POST"])
@@ -117,7 +117,7 @@ def add_suggestions():
         status=200,
         mimetype='application/json'
     )
-    return response
+    return jsonify(**response)
 
 
 @app.route("/get_list", methods=["GET", "POST"])
@@ -130,7 +130,7 @@ def send_list():
         status=200,
         mimetype='application/json'
     )
-    return response
+    return jsonify(**response)
 
 
 if __name__ == "__main__":
