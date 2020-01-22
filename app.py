@@ -31,6 +31,32 @@ with open(DIR + "\cls1.txt", "w") as f:
     for i in cls1:
         f.write(i+",")
 
+with open(DIR+r"\todo_ml.sav", 'rb') as f:
+    model = pickle.load(f)
+data = pd.read_csv(DIR+r"\dataset.csv")
+data.drop([" pork"], axis=1, inplace=True)
+data.dropna(axis=0, how='any', thresh=None, subset=None, inplace=True)
+# print(data.columns)
+#
+le = preprocessing.LabelEncoder()
+sandwich = le.fit_transform(data[" sandwich bags"])
+lunch_meat = le.fit_transform(data[" lunch meat"])
+all_purpose = le.fit_transform(data[" all- purpose"])
+flour = le.fit_transform(data[" flour"])
+soda = le.fit_transform(data[" soda"])
+butter = le.fit_transform(data[" butter"])
+vegetables = le.fit_transform(data[" vegetables"])
+beef = le.fit_transform(data[" beef"])
+aluminum_foil = le.fit_transform(data[" aluminum foil"])
+all_purpose1 = le.fit_transform(data[" all- purpose.1"])
+dinner_rolls = le.fit_transform(data[" dinner rolls"])
+shampoo = le.fit_transform(data[" shampoo"])
+all_purpose2 = le.fit_transform(data[" all- purpose.2"])
+
+predict = " all- purpose"
+
+X = list(zip(sandwich, lunch_meat, flour, soda, butter, vegetables, beef, aluminum_foil, all_purpose1, all_purpose2,
+                 dinner_rolls, shampoo))
 
 @app.route("/")
 def home():
@@ -39,32 +65,6 @@ def home():
 
 @app.route("/predict", methods=["GET", "POST"])
 def main():
-    with open(DIR+r"\todo_ml.sav", 'rb') as f:
-        model = pickle.load(f)
-    data = pd.read_csv(DIR+r"\dataset.csv")
-    data.drop([" pork"], axis=1, inplace=True)
-    data.dropna(axis=0, how='any', thresh=None, subset=None, inplace=True)
-    # print(data.columns)
-    #
-    le = preprocessing.LabelEncoder()
-    sandwich = le.fit_transform(data[" sandwich bags"])
-    lunch_meat = le.fit_transform(data[" lunch meat"])
-    all_purpose = le.fit_transform(data[" all- purpose"])
-    flour = le.fit_transform(data[" flour"])
-    soda = le.fit_transform(data[" soda"])
-    butter = le.fit_transform(data[" butter"])
-    vegetables = le.fit_transform(data[" vegetables"])
-    beef = le.fit_transform(data[" beef"])
-    aluminum_foil = le.fit_transform(data[" aluminum foil"])
-    all_purpose1 = le.fit_transform(data[" all- purpose.1"])
-    dinner_rolls = le.fit_transform(data[" dinner rolls"])
-    shampoo = le.fit_transform(data[" shampoo"])
-    all_purpose2 = le.fit_transform(data[" all- purpose.2"])
-
-    predict = " all- purpose"
-
-    X = list(zip(sandwich, lunch_meat, flour, soda, butter, vegetables, beef, aluminum_foil, all_purpose1, all_purpose2,
-                 dinner_rolls, shampoo))
 
     # get user input
     payload = request.get_json(force=True)
@@ -74,7 +74,7 @@ def main():
     y_kmeans = list(le.inverse_transform(y_kmeans))
     data = []
     for _ in range(5):
-        i = math.floor(random.randint(0,1000))
+        i = math.floor(random.randint(0, 1000))
         data.append(y_kmeans[i])
 
     # send the response
