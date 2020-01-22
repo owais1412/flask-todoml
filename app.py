@@ -33,7 +33,7 @@ with open("cls1.txt", "w") as f:
 
 with open("todo_ml.sav", 'rb') as f:
     model = pickle.load(f)
-data = pd.read_csv(DIR+r"\dataset.csv")
+data = pd.read_csv("dataset.csv")
 data.drop([" pork"], axis=1, inplace=True)
 data.dropna(axis=0, how='any', thresh=None, subset=None, inplace=True)
 # print(data.columns)
@@ -135,4 +135,4 @@ def send_list():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
