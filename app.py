@@ -56,9 +56,9 @@ all_purpose2 = le.fit_transform(data[" all- purpose.2"])
 predict = " all- purpose"
 
 X = list(zip(sandwich, lunch_meat, flour, soda, butter, vegetables, beef, aluminum_foil, all_purpose1, all_purpose2,
-                 dinner_rolls, shampoo))
+             dinner_rolls, shampoo))
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def home():
     return "Hii Owais"
 
