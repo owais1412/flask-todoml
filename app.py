@@ -27,11 +27,11 @@ for i in cls1:
     n.append(x)
     n.append(y)
 cls1.extend(n)
-with open(DIR + "\cls1.txt", "w") as f:
+with open("cls1.txt", "w") as f:
     for i in cls1:
         f.write(i+",")
 
-with open(DIR+r"\todo_ml.sav", 'rb') as f:
+with open("todo_ml.sav", 'rb') as f:
     model = pickle.load(f)
 data = pd.read_csv(DIR+r"\dataset.csv")
 data.drop([" pork"], axis=1, inplace=True)
@@ -135,4 +135,4 @@ def send_list():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
